@@ -18,7 +18,7 @@ import numpy as np
 import os
 
 INITIAL_LEARNING_RATE = 1e-4
-EPOCHS = 5
+EPOCHS = 20
 BATCH_SIZE = 32
 TEST_SIZE = 0.20
 MODEL = "mask_detector.model"
@@ -98,7 +98,7 @@ headModel = AveragePooling2D(pool_size=(7, 7))(headModel)
 headModel = Flatten(name="flatten")(headModel)
 headModel = Dense(128, activation="relu")(headModel)
 headModel = Dropout(0.5)(headModel)
-headModel = Dense(2, activation="softmax")(headModel)
+headModel = Dense(len(CATEGORIES), activation="softmax")(headModel)
 
 # Place the head FC model on top of the base model (this will become the actual model we will train)
 model = Model(inputs=baseModel.input, outputs=headModel)

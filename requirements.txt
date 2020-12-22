@@ -1,4 +1,4 @@
-tensorflow>=1.15.2
+tensorflow==2.4.0
 opencv-python==4.2.0.34
 sklearn
 imutils==0.5.3
