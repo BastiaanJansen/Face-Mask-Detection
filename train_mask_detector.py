@@ -17,9 +17,10 @@ from imutils import paths
 import numpy as np
 import os
 
-INIT_LR = 1e-4
+INITIAL_LEARNING_RATE = 1e-4
 EPOCHS = 5
 BATCH_SIZE = 32
+TEST_SIZE = 0.20
 MODEL = "mask_detector.model"
 
 DATASET_FOLDER = "dataset"
@@ -75,9 +76,8 @@ lb = LabelBinarizer()
 labels = lb.fit_transform(labels)
 labels = to_categorical(labels)
 
-# Partition the data into training and testing splits using 80% of the data for training and the remaining 20% for
-# testing
-(trainX, testX, trainY, testY) = train_test_split(data, labels, test_size=0.20, stratify=labels, random_state=42)
+# Partition the data into training and testing data
+(trainX, testX, trainY, testY) = train_test_split(data, labels, test_size=TEST_SIZE, stratify=labels, random_state=42)
 
 # Construct the training image generator for data augmentation
 aug = ImageDataGenerator(
@@ -109,7 +109,7 @@ for layer in baseModel.layers:
 
 # Compile model
 print("[INFO] Compiling model...")
-opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
+opt = Adam(lr=INITIAL_LEARNING_RATE, decay=INITIAL_LEARNING_RATE / EPOCHS)
 model.compile(loss="binary_crossentropy", optimizer=opt,
 	metrics=["accuracy"])
 
