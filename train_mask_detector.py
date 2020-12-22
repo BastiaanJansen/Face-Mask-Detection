@@ -17,13 +17,12 @@ from sklearn.model_selection import train_test_split
 from imutils import paths
 import numpy as np
 import os
-import random
 
 INITIAL_LEARNING_RATE = 1e-4
 EPOCHS = 20
 BATCH_SIZE = 32
 TEST_SIZE = 0.20
-MODEL = "mask_detector.model"
+MODEL = "models/mask_detector.model"
 
 DATASET_FOLDER = "dataset"
 
