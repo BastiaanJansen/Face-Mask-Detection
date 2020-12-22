@@ -13,15 +13,13 @@ from tensorflow.keras.preprocessing.image import load_img
 from tensorflow.keras.utils import to_categorical
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import classification_report
 from imutils import paths
-import matplotlib.pyplot as plt
 import numpy as np
 import argparse
 import os
 
 INIT_LR = 1e-4
-EPOCHS = 20
+EPOCHS = 5
 BS = 32
 
 ap = argparse.ArgumentParser()
@@ -57,10 +55,12 @@ labels = np.array(labels)
 lb = LabelBinarizer()
 labels = lb.fit_transform(labels)
 labels = to_categorical(labels)
+
 # partition the data into training and testing splits using 80% of
 # the data for training and the remaining 20% for testing
 (trainX, testX, trainY, testY) = train_test_split(data, labels,
 	test_size=0.20, stratify=labels, random_state=42)
+
 # construct the training image generator for data augmentation
 aug = ImageDataGenerator(
 	rotation_range=20,
@@ -70,3 +70,45 @@ aug = ImageDataGenerator(
 	shear_range=0.15,
 	horizontal_flip=True,
 	fill_mode="nearest")
+
+# load the MobileNetV2 network, ensuring the head FC layer sets are
+# left off
+baseModel = MobileNetV2(weights="imagenet", include_top=False,
+	input_tensor=Input(shape=(224, 224, 3)))
+
+# construct the head of the model that will be placed on top of the
+# the base model
+headModel = baseModel.output
+headModel = AveragePooling2D(pool_size=(7, 7))(headModel)
+headModel = Flatten(name="flatten")(headModel)
+headModel = Dense(128, activation="relu")(headModel)
+headModel = Dropout(0.5)(headModel)
+headModel = Dense(2, activation="softmax")(headModel)
+
+# place the head FC model on top of the base model (this will become
+# the actual model we will train)
+model = Model(inputs=baseModel.input, outputs=headModel)
+
+# loop over all layers in the base model and freeze them so they will
+# *not* be updated during the first training process
+for layer in baseModel.layers:
+	layer.trainable = False
+
+# compile our model
+print("[INFO] compiling model...")
+opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
+model.compile(loss="binary_crossentropy", optimizer=opt,
+	metrics=["accuracy"])
+
+# train the head of the network
+print("[INFO] training head...")
+H = model.fit(
+	aug.flow(trainX, trainY, batch_size=BS),
+	steps_per_epoch=len(trainX) // BS,
+	validation_data=(testX, testY),
+	validation_steps=len(testX) // BS,
+	epochs=EPOCHS)
+
+# serialize the model to disk
+print("[INFO] saving mask detector model...")
+model.save(args["model"], save_format="h5")
