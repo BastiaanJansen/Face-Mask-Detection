@@ -28,16 +28,16 @@ DIR_NAME = os.path.dirname(__file__)
 # Compute relative path to dataset folder
 DIRECTORY = os.path.relpath(DATASET_FOLDER, DIR_NAME)
 
-# Check if directory exists
-if not os.path.exists(DIRECTORY):
-	print(f"[INFO] {DIRECTORY} does not exist")
-	exit(1)
-
 # Categories must match the dataset folder structure.
 CATEGORIES = ["with_mask", "without_mask"]
 
 data = []
 labels = []
+
+# Check if directory exists
+if not os.path.exists(DIRECTORY):
+	print(f"[INFO] {DIRECTORY} does not exist")
+	exit(1)
 
 print("[INFO] Loading images...")
 
