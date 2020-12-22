@@ -111,8 +111,7 @@ for layer in baseModel.layers:
 # Compile model
 print("[INFO] Compiling model...")
 opt = Adam(lr=INITIAL_LEARNING_RATE, decay=INITIAL_LEARNING_RATE / EPOCHS)
-model.compile(loss="binary_crossentropy", optimizer=opt,
-	metrics=["accuracy"])
+model.compile(loss="categorical_crossentropy", optimizer=opt, metrics=["accuracy"])
 
 # Train the model
 print("[INFO] Training head...")
