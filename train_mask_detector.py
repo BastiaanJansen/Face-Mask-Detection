@@ -15,51 +15,71 @@ from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
 from imutils import paths
 import numpy as np
-import argparse
 import os
 
 INIT_LR = 1e-4
 EPOCHS = 5
-BS = 32
+BATCH_SIZE = 32
+MODEL = "mask_detector.model"
 
-ap = argparse.ArgumentParser()
-ap.add_argument("-d", "--dataset", required=True,
-	help="path to input dataset")
-ap.add_argument("-m", "--model", type=str,
-	default="mask_detector.model",
-	help="path to output face mask detector model")
-args = vars(ap.parse_args())
+DATASET_FOLDER = "dataset"
 
-print("[INFO] loading images...")
-imagePaths = list(paths.list_images(args["dataset"]))
+DIR_NAME = os.path.dirname(__file__)
+# Compute relative path to dataset folder
+DIRECTORY = os.path.relpath(DATASET_FOLDER, DIR_NAME)
+
+# Check if directory exists
+if not os.path.exists(DIRECTORY):
+	print(f"[INFO] {DIRECTORY} does not exist")
+	exit(1)
+
+# Categories must match the dataset folder structure.
+CATEGORIES = ["with_mask", "without_mask"]
+
 data = []
 labels = []
-# loop over the image paths
-for imagePath in imagePaths:
-	# extract the class label from the filename
-	label = imagePath.split(os.path.sep)[-2]
-	# load the input image (224x224) and preprocess it
-	image = load_img(imagePath, target_size=(224, 224))
-	image = img_to_array(image)
-	image = preprocess_input(image)
-	# update the data and labels lists, respectively
-	data.append(image)
-	labels.append(label)
-# convert the data and labels to NumPy arrays
+
+print("[INFO] Loading images...")
+
+# Loop over the categories and add info to data and labels list
+for category in CATEGORIES:
+	category_path = os.path.join(DIRECTORY, category)
+
+	if not os.path.exists(category_path):
+		print(f"[INFO] Category '{category}' does not exist. Skipping category")
+		continue
+
+	print(f"[INFO] Loading images for category: '{category}'")
+	image_paths = list(paths.list_images(category_path))
+
+	for image_path in image_paths:
+		# Load image and resize to (244, 244)
+		image = load_img(image_path, target_size=(224, 224))
+		image = img_to_array(image)
+		image = preprocess_input(image)
+
+		# Add data to data and labels lists
+		data.append(image)
+		labels.append(category)
+
+if not data:
+	print("[INFO] No images found")
+	exit(1)
+
+# Convert the data and labels to NumPy arrays
 data = np.array(data, dtype="float32")
 labels = np.array(labels)
 
-# perform one-hot encoding on the labels
+# Perform one-hot encoding on the labels
 lb = LabelBinarizer()
 labels = lb.fit_transform(labels)
 labels = to_categorical(labels)
 
-# partition the data into training and testing splits using 80% of
-# the data for training and the remaining 20% for testing
-(trainX, testX, trainY, testY) = train_test_split(data, labels,
-	test_size=0.20, stratify=labels, random_state=42)
+# Partition the data into training and testing splits using 80% of the data for training and the remaining 20% for
+# testing
+(trainX, testX, trainY, testY) = train_test_split(data, labels, test_size=0.20, stratify=labels, random_state=42)
 
-# construct the training image generator for data augmentation
+# Construct the training image generator for data augmentation
 aug = ImageDataGenerator(
 	rotation_range=20,
 	zoom_range=0.15,
@@ -69,13 +89,10 @@ aug = ImageDataGenerator(
 	horizontal_flip=True,
 	fill_mode="nearest")
 
-# load the MobileNetV2 network, ensuring the head FC layer sets are
-# left off
-baseModel = MobileNetV2(weights="imagenet", include_top=False,
-	input_tensor=Input(shape=(224, 224, 3)))
+# Load the MobileNetV2 network, ensuring the head FC layer sets are left off
+baseModel = MobileNetV2(weights="imagenet", include_top=False, input_tensor=Input(shape=(224, 224, 3)))
 
-# construct the head of the model that will be placed on top of the
-# the base model
+# Construct the head of the model that will be placed on top of the the base model
 headModel = baseModel.output
 headModel = AveragePooling2D(pool_size=(7, 7))(headModel)
 headModel = Flatten(name="flatten")(headModel)
@@ -83,30 +100,28 @@ headModel = Dense(128, activation="relu")(headModel)
 headModel = Dropout(0.5)(headModel)
 headModel = Dense(2, activation="softmax")(headModel)
 
-# place the head FC model on top of the base model (this will become
-# the actual model we will train)
+# Place the head FC model on top of the base model (this will become the actual model we will train)
 model = Model(inputs=baseModel.input, outputs=headModel)
 
-# loop over all layers in the base model and freeze them so they will
-# *not* be updated during the first training process
+# Loop over all layers in the base model and freeze them so they will *not* be updated during the first training process
 for layer in baseModel.layers:
 	layer.trainable = False
 
-# compile our model
-print("[INFO] compiling model...")
+# Compile model
+print("[INFO] Compiling model...")
 opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
 model.compile(loss="binary_crossentropy", optimizer=opt,
 	metrics=["accuracy"])
 
-# train the head of the network
-print("[INFO] training head...")
+# Train the head of the network
+print("[INFO] Training head...")
 H = model.fit(
-	aug.flow(trainX, trainY, batch_size=BS),
-	steps_per_epoch=len(trainX) // BS,
+	aug.flow(trainX, trainY, batch_size=BATCH_SIZE),
+	steps_per_epoch=len(trainX) // BATCH_SIZE,
 	validation_data=(testX, testY),
-	validation_steps=len(testX) // BS,
+	validation_steps=len(testX) // BATCH_SIZE,
 	epochs=EPOCHS)
 
-# serialize the model to disk
-print("[INFO] saving mask detector model...")
-model.save(args["model"], save_format="h5")
+# Serialize the model to disk
+print("[INFO] Saving mask detector model...")
+model.save(MODEL, save_format="h5")
