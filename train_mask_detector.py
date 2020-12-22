@@ -1,3 +1,4 @@
+from sklearn.metrics import classification_report
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.applications import MobileNetV2
 from tensorflow.keras.layers import AveragePooling2D
@@ -16,6 +17,7 @@ from sklearn.model_selection import train_test_split
 from imutils import paths
 import numpy as np
 import os
+import random
 
 INITIAL_LEARNING_RATE = 1e-4
 EPOCHS = 20
@@ -113,7 +115,7 @@ opt = Adam(lr=INITIAL_LEARNING_RATE, decay=INITIAL_LEARNING_RATE / EPOCHS)
 model.compile(loss="binary_crossentropy", optimizer=opt,
 	metrics=["accuracy"])
 
-# Train the head of the network
+# Train the model
 print("[INFO] Training head...")
 H = model.fit(
 	aug.flow(trainX, trainY, batch_size=BATCH_SIZE),
@@ -121,6 +123,18 @@ H = model.fit(
 	validation_data=(testX, testY),
 	validation_steps=len(testX) // BATCH_SIZE,
 	epochs=EPOCHS)
+
+# Make predictions on the testing set
+print("[INFO] Evaluating model...")
+predIdxs = model.predict(testX, batch_size=BATCH_SIZE)
+
+# for each image in the testing set we need to find the index of the
+# label with corresponding largest predicted probability
+predIdxs = np.argmax(predIdxs, axis=1)
+
+# show a nicely formatted classification report
+print(classification_report(testY.argmax(axis=1), predIdxs,
+	target_names=lb.classes_))
 
 # Serialize the model to disk
 print("[INFO] Saving mask detector model...")
