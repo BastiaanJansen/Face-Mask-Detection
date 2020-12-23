@@ -25,20 +25,18 @@ def extract_face_roi(frame, detection):
 
 
 def detect_faces(frame, face_net, min_confidence):
-    # grab the dimensions of the frame and then construct a blob from it
-    (h, w) = frame.shape[:2]
+    # Construct a blob from the frame
     blob = cv2.dnn.blobFromImage(frame, 1.0, (300, 300), (104.0, 177.0, 123.0))
 
-    # pass the blob through the network and obtain the face detections
+    # Pass the blob through the network and obtain the face detections
     face_net.setInput(blob)
     detections = face_net.forward()
 
-    # initialize our list of faces, their corresponding locations,
-    # and the list of predictions from our face mask network
+    # Initialize our list of faces, their corresponding locations
     faces = []
     locations = []
 
-    # loop over the detections
+    # Loop over the detections
     for i in range(0, detections.shape[2]):
         # extract the confidence (i.e., probability) associated with the detection
         confidence = detections[0, 0, i, 2]
@@ -52,16 +50,13 @@ def detect_faces(frame, face_net, min_confidence):
     return faces, locations
 
 
-def predict_mask(faces, mask_net):
+def predict_mask(faces, mask_net, batch_size=32):
     predictions = []
 
-    # only make a predictions if at least one face was detected
+    # Only make a predictions if at least one face was detected
     if len(faces) > 0:
-        # for faster inference we'll make batch predictions on *all*
-        # faces at the same time rather than one-by-one predictions
-        # in the above `for` loop
+        # For faster inference we'll make batch predictions on all faces at the same time
         faces = np.array(faces, dtype="float32")
-        predictions = mask_net.predict(faces, batch_size=32)
+        predictions = mask_net.predict(faces, batch_size=batch_size)
 
-    # return a 2-tuple of the face locations and their corresponding locations
     return predictions
