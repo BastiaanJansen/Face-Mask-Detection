@@ -13,7 +13,7 @@ MODEL = "models/mask_detector.model"
 MIN_CONFIDENCE = 0.50
 
 
-def extract_face_ROI(frame, detection):
+def extract_face_roi(frame, detection):
     h, w = frame.shape[:2]
 
     # compute the (x, y)-coordinates of the bounding box for the object
