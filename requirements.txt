@@ -1,5 +1,5 @@
 tensorflow==2.4.0
-opencv-python==4.2.0.34
+opencv-python==4.4.0.46
 sklearn
 imutils==0.5.3
 matplotlib==3.3.3
