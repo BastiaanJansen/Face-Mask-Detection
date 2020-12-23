@@ -1,7 +1,7 @@
 from imutils.video import VideoStream
 from tensorflow.keras.models import load_model
 from detect_mask_video import detect_faces, predict_mask
-from helpers.draw import draw_roi
+from helpers.draw import draw_face_mask_roi
 import time
 import cv2
 import os
@@ -11,7 +11,7 @@ MIN_CONFIDENCE = 0.50
 VIDEO_STREAM_SOURCE = 0
 
 
-def video(model, min_confidence, video_stream_source):
+def video(model, min_confidence=0.50, video_stream_source=0):
     mask_net = load_trained_model(model)
     face_net = load_face_detector()
 
@@ -29,8 +29,8 @@ def video(model, min_confidence, video_stream_source):
         predictions = predict_mask(faces, mask_net)
 
         # loop over the detected face locations and their corresponding locations
-        for (box, pred) in zip(locations, predictions):
-            draw_roi(frame, box, pred)
+        for box, prediction in zip(locations, predictions):
+            draw_face_mask_roi(frame, box, prediction)
 
         # show the output frame
         cv2.imshow("Mask detection", frame)

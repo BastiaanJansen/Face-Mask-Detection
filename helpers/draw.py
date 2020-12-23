@@ -1,6 +1,7 @@
 import cv2
 
-def draw_roi(frame, box, prediction):
+
+def draw_face_mask_roi(frame, box, prediction):
     # unpack the bounding box and predictions
     (start_x, start_y, end_x, end_y) = box
     (mask, without_mask) = prediction
