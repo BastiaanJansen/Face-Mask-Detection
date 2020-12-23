@@ -86,21 +86,21 @@ aug = ImageDataGenerator(
 	fill_mode="nearest")
 
 # Load the MobileNetV2 network, ensuring the head FC layer sets are left off
-baseModel = MobileNetV2(weights="imagenet", include_top=False, input_tensor=Input(shape=(224, 224, 3)))
+base_model = MobileNetV2(weights="imagenet", include_top=False, input_tensor=Input(shape=(224, 224, 3)))
 
 # Construct the head of the model that will be placed on top of the the base model
-headModel = baseModel.output
-headModel = AveragePooling2D(pool_size=(7, 7))(headModel)
-headModel = Flatten(name="flatten")(headModel)
-headModel = Dense(128, activation="relu")(headModel)
-headModel = Dropout(0.5)(headModel)
-headModel = Dense(len(CATEGORIES), activation="softmax")(headModel)
+head_model = base_model.output
+head_model = AveragePooling2D(pool_size=(7, 7))(head_model)
+head_model = Flatten(name="flatten")(head_model)
+head_model = Dense(128, activation="relu")(head_model)
+head_model = Dropout(0.5)(head_model)
+head_model = Dense(len(CATEGORIES), activation="softmax")(head_model)
 
 # Place the head FC model on top of the base model (this will become the actual model we will train)
-model = Model(inputs=baseModel.input, outputs=headModel)
+model = Model(inputs=base_model.input, outputs=head_model)
 
 # Loop over all layers in the base model and freeze them so they will *not* be updated during the first training process
-for layer in baseModel.layers:
+for layer in base_model.layers:
 	layer.trainable = False
 
 # Compile model
@@ -119,15 +119,14 @@ H = model.fit(
 
 # Make predictions on the testing set
 print("[INFO] Evaluating model...")
-predIdxs = model.predict(testX, batch_size=BATCH_SIZE)
+pred_id_xs = model.predict(testX, batch_size=BATCH_SIZE)
 
 # for each image in the testing set we need to find the index of the
 # label with corresponding largest predicted probability
-predIdxs = np.argmax(predIdxs, axis=1)
+pred_id_xs = np.argmax(pred_id_xs, axis=1)
 
-# show a nicely formatted classification report
-print(classification_report(testY.argmax(axis=1), predIdxs,
-	target_names=lb.classes_))
+# Show a nicely formatted classification report
+print(classification_report(testY.argmax(axis=1), pred_id_xs, target_names=lb.classes_))
 
 # Serialize the model to disk
 print("[INFO] Saving mask detector model...")
