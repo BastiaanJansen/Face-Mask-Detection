@@ -76,6 +76,12 @@ def predict_mask(faces, mask_net):
     return predictions
 
 
+def import_model(name):
+    # load the face mask detector model from disk
+    print("[INFO] Loading face mask detector model...")
+    return load_model(name)
+
+
 if not os.path.exists(MODEL):
     print("[INFO] Model does not exist")
     exit(1)
@@ -86,9 +92,7 @@ prototxtPath = os.path.sep.join(["face_detector", "deploy.prototxt"])
 weightsPath = os.path.sep.join(["face_detector", "res10_300x300_ssd_iter_140000.caffemodel"])
 face_net = cv2.dnn.readNet(prototxtPath, weightsPath)
 
-# load the face mask detector model from disk
-print("[INFO] Loading face mask detector model...")
-mask_net = load_model(MODEL)
+mask_net = import_model(MODEL)
 
 # initialize the video stream and allow the camera sensor to warm up
 print("[INFO] Starting video stream...")
