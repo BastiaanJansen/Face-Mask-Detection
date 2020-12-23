@@ -34,8 +34,7 @@ def extract_face_roi(frame, detection):
 
 
 def detect_faces(frame, face_net):
-    # grab the dimensions of the frame and then construct a blob
-    # from it
+    # grab the dimensions of the frame and then construct a blob from it
     (h, w) = frame.shape[:2]
     blob = cv2.dnn.blobFromImage(frame, 1.0, (300, 300), (104.0, 177.0, 123.0))
 
@@ -54,7 +53,7 @@ def detect_faces(frame, face_net):
         confidence = detections[0, 0, i, 2]
         # filter out weak detections by ensuring the confidence is greater than the minimum confidence
         if confidence > MIN_CONFIDENCE:
-            face, start_x, start_y, end_x, end_y = extract_face_ROI(frame, detections[0, 0, i, 3:7])
+            face, start_x, start_y, end_x, end_y = extract_face_roi(frame, detections[0, 0, i, 3:7])
             # add the face and bounding boxes to their respective lists
             faces.append(face)
             locations.append((start_x, start_y, end_x, end_y))
