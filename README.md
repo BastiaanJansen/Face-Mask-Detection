@@ -21,3 +21,4 @@ In de applicatie wordt de video van je webcam gebruikt. Voor iedere frame worden
 Hierdoor wordt er voor elk gezicht goed getracked welk gezicht wel of niet een gezichtsmasker heeft.
 
 ## Bronnen
+- https://www.pyimagesearch.com/2020/05/04/covid-19-face-mask-detector-with-opencv-keras-tensorflow-and-deep-learning/
