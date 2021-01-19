@@ -10,6 +10,7 @@ from tensorflow.keras.utils import to_categorical
 from sklearn.preprocessing import LabelBinarizer
 from sklearn.model_selection import train_test_split
 from imutils import paths
+import matplotlib.pyplot as plt
 import numpy as np
 import os
 
