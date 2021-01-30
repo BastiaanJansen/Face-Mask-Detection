@@ -33,10 +33,14 @@ In de applicatie wordt de video van je webcam gebruikt. Voor iedere frame worden
 
 Hierdoor wordt er voor elk gezicht goed getracked welk gezicht wel of niet een gezichtsmasker heeft.
 
+## Dataset
+
+Wij hebben een bestaande dataset gebruikt met gezichten die wel en gezichten die geen gezichtsmasker aan het dragen zijn<sup>1</sup>. Elk van deze datasets bestaat uit ca. 1000 foto's. Dit geeft ons een goed aantal foto's om als dataset te gebruiken. Uit de trainingsresultaten blijkt dat deze dataset goede resultaten geeft.
+
 ## Problemen
 Het programma zoekt iedere keer eerst naar gezichten om daarna te kijken of die persoon een gezichtsmasker op heeft. Dit betekent dat wanneer een gezicht niet wordt gedetecteerd, er ook niet wordt gezocht naar een gezichtsmasker. Dit kan problematisch zijn wanneer een persoon wel een gezichtsmasker op heeft, maar doordat het programma geen gezicht kan detecteren omdat het gezichtsmasker een groot deel van het gezicht blokkeert, dus geen persoon kan detecteren.
 
 ## Bronnen
 - https://www.pyimagesearch.com/2020/05/04/covid-19-face-mask-detector-with-opencv-keras-tensorflow-and-deep-learning/
 - https://towardsdatascience.com/covid-19-face-mask-detection-using-tensorflow-and-opencv-702dd833515b
-- https://github.com/prajnasb/observations/tree/master/experiements/data
+- [1] https://github.com/balajisrinivas/Face-Mask-Detection/tree/master/dataset
