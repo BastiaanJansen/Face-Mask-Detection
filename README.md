@@ -35,7 +35,7 @@ Hierdoor wordt er voor elk gezicht goed getracked welk gezicht wel of niet een g
 
 ## Dataset
 
-Wij hebben een bestaande dataset gebruikt met gezichten die wel en gezichten die geen gezichtsmasker aan het dragen zijn<sup>1</sup>. Elk van deze datasets bestaat uit ca. 1000 foto's. Dit geeft ons een goed aantal foto's om als dataset te gebruiken. Uit de trainingsresultaten blijkt dat deze dataset goede resultaten geeft.
+Wij hebben een bestaande dataset gebruikt met gezichten die wel een gezichtsmasker dragen en gezichten die geen gezichtsmasker dragen. <sup>1</sup>. Elk van deze datasets bestaat uit ca. 1000 foto's. Dit geeft ons een goed aantal foto's om als dataset te gebruiken. Uit de trainingsresultaten blijkt dat deze dataset goede resultaten geeft.
 
 ## Problemen
 Het programma zoekt iedere keer eerst naar gezichten om daarna te kijken of die persoon een gezichtsmasker op heeft. Dit betekent dat wanneer een gezicht niet wordt gedetecteerd, er ook niet wordt gezocht naar een gezichtsmasker. Dit kan problematisch zijn wanneer een persoon wel een gezichtsmasker op heeft, maar doordat het programma geen gezicht kan detecteren omdat het gezichtsmasker een groot deel van het gezicht blokkeert, dus geen persoon kan detecteren.
