@@ -12,21 +12,22 @@ De opdracht dat werd gegeven aan ons was om een applicatie te maken die gezichts
 
 Voor de training hebben wij verscheidene bronnen en artikelen bekeken om te zien welke het beste zou passen bij onze opdracht, zoals welke imagesets en methode het beste zou zijn voor het maken van deze applicatie. Hierbij hebben wij gekozen voor een grote image dataset van mensen met en zonder gezichtsmasker, en hebben wij onze applicate getrained met een convolutional neural network met het deep learning framework Keras voor Google's TensorFlow.
 
-Na het trainen kregen we de volgende resultaten:
+Na het trainen kregen we de volgende resultaten, waar we erg tevreden over zijn:
 
 ![Overview](https://github.com/BastiaanJansen/Face-Mask-Detection/blob/main/overview.PNG)
 
 ![Plot](https://github.com/BastiaanJansen/Face-Mask-Detection/blob/main/plot.png)
 
-In de plot hierboven is te zien dat er niet veel meer gebeurd na ongeveer 7 epochs. 
+In de plot hierboven is te zien dat er niet veel meer gebeurd na ongeveer 7 epochs. Dus wellicht was 20 epochs een beetje overbodig.
 
 ### Real-time tracking
 
-In de applicatie wordt de video van je webcam gebruikt. Voor iedere frame worden er drie stappen uitgevoerd:
+In de applicatie wordt de video van je webcam gebruikt. Voor iedere frame worden er vier stappen uitgevoerd:
 
 1. Het detecteren van gezichten.
 2. Het verkrijgen van elk individueel gezicht.
 3. Het toepassen van onze gezichtsmasker classifier.
+4. Is er geen gezichtsmasker gevonden? Sla de frame op als afbeelding.
 
 Hierdoor wordt er voor elk gezicht goed getracked welk gezicht wel of niet een gezichtsmasker heeft.
 
@@ -35,3 +36,5 @@ Het programma zoekt iedere keer eerst naar gezichten om daarna te kijken of die 
 
 ## Bronnen
 - https://www.pyimagesearch.com/2020/05/04/covid-19-face-mask-detector-with-opencv-keras-tensorflow-and-deep-learning/
+- https://towardsdatascience.com/covid-19-face-mask-detection-using-tensorflow-and-opencv-702dd833515b
+- https://github.com/prajnasb/observations/tree/master/experiements/data
