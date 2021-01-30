@@ -2,6 +2,7 @@ from imutils.video import VideoStream
 from tensorflow.keras.models import load_model
 from detect_mask_video import detect_faces, predict_mask
 from helpers.draw import draw_face_mask_roi, draw_text
+from datetime import datetime
 import time
 import cv2
 import os
@@ -9,9 +10,11 @@ import os
 MODEL = "models/mask_detector.model"
 MIN_CONFIDENCE = 0.50
 VIDEO_STREAM_SOURCE = 0
+IMAGES_DIRECTORY = "detected"
 
 COLOR_WHITE = (255, 255, 255)
 COLOR_BLACK = (0, 0, 0)
+
 
 def video(model, min_confidence=0.50, video_stream_source=0):
     mask_net = load_trained_model(model)
@@ -49,6 +52,11 @@ def video(model, min_confidence=0.50, video_stream_source=0):
         for box, prediction in zip(locations, predictions):
             draw_face_mask_roi(frame, box, prediction)
 
+            mask, without_mask = prediction
+
+            if mask <= without_mask:
+                save_to_image(frame)
+
         # show the output frame
         if frame.any():
             cv2.imshow("Mask detection", frame)
@@ -74,6 +82,15 @@ def load_face_detector():
     proto_txt_path = os.path.sep.join(["face_detector", "deploy.prototxt"])
     weights_path = os.path.sep.join(["face_detector", "res10_300x300_ssd_iter_140000.caffemodel"])
     return cv2.dnn.readNet(proto_txt_path, weights_path)
+
+
+def save_to_image(frame):
+    if not os.path.exists(IMAGES_DIRECTORY):
+        os.makedirs(IMAGES_DIRECTORY)
+
+    now = datetime.now()
+    # Save image frame (with info like ROI, etc.) as image
+    cv2.imwrite(f"{IMAGES_DIRECTORY}/{now.strftime('%d_%m_%Y_%H_%M_%S')}.jpg", frame)
 
 
 if __name__ == "__main__":
