@@ -6,6 +6,8 @@ Real-time face mask detection voor Informatica Keuzevak Patroonherkenning en Bee
 
 De opdracht dat werd gegeven aan ons was om een applicatie te maken die gezichtsmaskers herkent op personen. Naast dit moesten wij ook zelf een aparte functionaliteit verzinnen voor bij het programma zelf. Hiervoor hebben wij een teller gemaakt die telt hoeveel personen er in de frame zelf aanwezig zijn, en hoeveel van die personen wel of niet een gezichtsmasker dragen.
 
+![](demo.gif)
+
 ### Training
 
 Voor de training hebben wij verscheidene bronnen en artikelen bekeken om te zien welke het beste zou passen bij onze opdracht, zoals welke imagesets en methode het beste zou zijn voor het maken van deze applicatie. Hierbij hebben wij gekozen voor een grote image dataset van mensen met en zonder gezichtsmasker, en hebben wij onze applicate getrained met een convolutional neural network met het deep learning framework Keras voor Google's TensorFlow.
