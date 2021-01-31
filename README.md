@@ -35,10 +35,20 @@ Hierdoor wordt er voor elk gezicht goed getracked welk gezicht wel of niet een g
 
 ## Dataset
 
-Wij hebben een bestaande dataset gebruikt met gezichten die wel een gezichtsmasker dragen en gezichten die geen gezichtsmasker dragen. <sup>1</sup>. Elk van deze datasets bestaat uit ca. 1000 foto's. Dit geeft ons een goed aantal foto's om als dataset te gebruiken. Uit de trainingsresultaten blijkt dat deze dataset goede resultaten geeft.
+Wij hebben een bestaande dataset gebruikt met gezichten die wel een gezichtsmasker dragen en gezichten die geen gezichtsmasker dragen. <sup>1</sup>. Elk van deze datasets bestaat uit ca. 1000 foto's. In totaal hebben wij met het trainen 1376 afbeeldingen gebruikt. Dit is een goed aantal foto's om als dataset te gebruiken. Uit de trainingsresultaten blijkt dat deze dataset dus ook goede resultaten geeft.
 
 ## Problemen
 Het programma zoekt iedere keer eerst naar gezichten om daarna te kijken of die persoon een gezichtsmasker op heeft. Dit betekent dat wanneer een gezicht niet wordt gedetecteerd, er ook niet wordt gezocht naar een gezichtsmasker. Dit kan problematisch zijn wanneer een persoon wel een gezichtsmasker op heeft, maar doordat het programma geen gezicht kan detecteren omdat het gezichtsmasker een groot deel van het gezicht blokkeert, dus geen persoon kan detecteren.
+
+## Mogelijke verbeteringen
+
+In ons programma zijn er natuurlijk een reeds mogelijke verbeteringen die nog mogelijk toegevoegd zou kunnen worden. Het verwezelijken van deze verbeteringen is helaas niet gelukt met betrekking tot gebrek aan tijd. Hier een lijst van mogelijke verbeteringen:
+
+1) Wij hebben een functie geïmplementeerd dat checkt voor een frame waarin het programma geen gezichtsmasker detecteerd. Hierbij slaat het programma de eerste frame op waarin er op een persoon geen gezichtsmasker wordt gevonden. Het probleem bij deze functionaliteit is dat het programma soms, voor een enkele frame of twee, heel eventjes geen gezichtsmasker detecteerd op een persoon. Hierbij wordt er dus een frame onnodig opgeslagen.
+
+Een manier om dit te voorkomen is om een timer te implementeren. Een timer zou er voor zorgen dat het programma een aantal tijd wacht voordat de frame wordt opgeslagen. Dit zorgt er voor dat het programma alleen een frame zou opslaan wanneer iemand daadwerkelijk geen gezichtsmasker op heeft, omdat het programma dan langer dan een paar frames geen gezichtsmasker op een persoon zou detecteren.
+
+2) Zoals gezegd in het kopje <b>Problemen</b> is een van de problemen van het programma dat het soms niet goed gezichten kan detecteren gezien het feit dat de gezichtsmaskers grote delen van een gezicht kan blokkeren. Een mogelijke oplossing zou kunnen zijn om extra detectiemethodes toe te voegen zoals d.m.v. extra feature-detectie. Vooralsnog komt dit probleem niet vaak voor als de gezichtsmasker zelf niet een te groot gebied van een gezicht bedekt.
 
 ## Bronnen
 - https://www.pyimagesearch.com/2020/05/04/covid-19-face-mask-detector-with-opencv-keras-tensorflow-and-deep-learning/
