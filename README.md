@@ -31,7 +31,7 @@ In de applicatie wordt de video van je webcam gebruikt. Voor iedere frame worden
 1. Het detecteren van gezichten.
 2. Het verkrijgen van elk individueel gezicht.
 3. Het toepassen van onze gezichtsmasker classifier.
-4. Is er geen gezichtsmasker gevonden? Sla de frame op als afbeelding.
+4. Is er wel een persoon gedetecteerd maar geen gezichtsmasker gevonden? Sla de frame op als afbeelding.
 
 Hierdoor wordt er voor elk gezicht goed getracked welk gezicht wel of niet een gezichtsmasker heeft.
 
