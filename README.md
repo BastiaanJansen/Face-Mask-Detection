@@ -29,7 +29,7 @@ In de plot hierboven is te zien dat er niet veel meer gebeurd na ongeveer 7 epoc
 In de applicatie wordt de video van je webcam gebruikt. Voor iedere frame worden er vier stappen uitgevoerd:
 
 1. Het detecteren van gezichten.
- - Dit wordt gedaan door een pre-trained model die wij gebruiken om gezichten te detecteren. Wij hebben een aparte model zelf getrained om te letten op gezichtsmaskers en of mensen deze wel dragen of neit.
+ - Dit wordt gedaan door een pre-trained model die wij gebruiken om gezichten te detecteren. Wij hebben een aparte model zelf getrained om te letten op gezichtsmaskers en of mensen deze wel dragen of niet.
 2. Het verkrijgen van elk individueel gezicht.
  - Elk individueel gezicht wordt verkregen en apart bijgehouden door het programma zodat het programma zonder problemen meerdere mensen kan tracken.
 3. Het toepassen van onze gezichtsmasker classifier.
