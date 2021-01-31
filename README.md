@@ -30,19 +30,19 @@ In de applicatie wordt de video van je webcam gebruikt. Voor iedere frame worden
 
 <b>1. Het detecteren van gezichten.</b>
 
--Dit wordt gedaan door een pre-trained model die wij gebruiken om gezichten te detecteren. Wij hebben een aparte model zelf getrained om te letten op gezichtsmaskers en of mensen deze wel dragen of niet.
+- Dit wordt gedaan door een pre-trained model die wij gebruiken om gezichten te detecteren. Wij hebben een aparte model zelf getrained om te letten op gezichtsmaskers en of mensen deze wel dragen of niet.
 
 <b>2. Het verkrijgen van elk individueel gezicht.</b>
 
--Elk individueel gezicht wordt verkregen en apart bijgehouden door het programma zodat het programma zonder problemen meerdere mensen kan tracken.
+- Elk individueel gezicht wordt verkregen en apart bijgehouden door het programma zodat het programma zonder problemen meerdere mensen kan tracken.
   
 <b>3. Het toepassen van onze gezichtsmasker classifier.</b>
 
--Door het toepassen van het gezichtsmasker-classifier wordt er van elk gezicht gekeken of zij wel of niet een gezichtsmasker aan het dragen zijn.
+- Door het toepassen van het gezichtsmasker-classifier wordt er van elk gezicht gekeken of zij wel of niet een gezichtsmasker aan het dragen zijn.
   
 <b>4. Is er wel een persoon gedetecteerd maar geen gezichtsmasker gevonden? Sla de frame op als afbeelding.</b>
 
--Als er een persoon geen gezichtsmasker draagt wordt de frame opgeslagen naar een file directory zodat deze terugbekeken kan worden.
+- Als er een persoon geen gezichtsmasker draagt wordt de frame opgeslagen naar een file directory zodat deze terugbekeken kan worden.
 
 Hierdoor wordt er voor elk gezicht goed getracked welk gezicht wel of niet een gezichtsmasker heeft.
 
