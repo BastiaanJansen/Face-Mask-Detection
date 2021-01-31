@@ -14,7 +14,7 @@ Voor de training hebben wij verscheidene bronnen en artikelen bekeken om te zien
 
 #### Dataset
 
-Wij hebben een bestaande dataset gebruikt met gezichten die wel een gezichtsmasker dragen en gezichten die geen gezichtsmasker dragen<sup>1</sup>. Elk van deze datasets bestaat uit ca. 1000 foto's. In totaal hebben wij met het trainen 1376 afbeeldingen gebruikt. Dit is een goed aantal foto's om als dataset te gebruiken. Uit de trainingsresultaten blijkt dat deze dataset dus ook goede resultaten geeft.
+Wij hebben een bestaande dataset gebruikt met gezichten die wel een gezichtsmasker dragen en gezichten die geen gezichtsmasker dragen<sup>1</sup>. Elk van deze datasets bestaat uit ca. 1000 foto's. In totaal hebben wij met het trainen 1376 afbeeldingen gebruikt. Dit is een goed aantal foto's om als dataset te gebruiken omdat er voor beide groepen foto's voldoende foto's zijn. Uit de trainingsresultaten blijkt dat deze dataset dus ook goede resultaten geeft.
 
 Na het trainen kregen we de volgende resultaten, waar we erg tevreden over zijn:
 
