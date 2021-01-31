@@ -12,7 +12,9 @@ De opdracht dat werd gegeven aan ons was om een applicatie te maken die gezichts
 
 Voor de training hebben wij verscheidene bronnen en artikelen bekeken om te zien welke het beste zou passen bij onze opdracht, zoals welke imagesets en methode het beste zou zijn voor het maken van deze applicatie. Hierbij hebben wij gekozen voor een grote image dataset van mensen met en zonder gezichtsmasker, en hebben wij onze applicate getrained met een convolutional neural network met het deep learning framework Keras voor Google's TensorFlow.
 
-Voor het trainen hebben we in totaal 1376 afbeeldingen gebruikt waarvan er 686 zonder gezichtsmasker waren en 690 met gezichtsmasker.
+#### Dataset
+
+Wij hebben een bestaande dataset gebruikt met gezichten die wel een gezichtsmasker dragen en gezichten die geen gezichtsmasker dragen<sup>1</sup>. Elk van deze datasets bestaat uit ca. 1000 foto's. In totaal hebben wij met het trainen 1376 afbeeldingen gebruikt. Dit is een goed aantal foto's om als dataset te gebruiken. Uit de trainingsresultaten blijkt dat deze dataset dus ook goede resultaten geeft.
 
 Na het trainen kregen we de volgende resultaten, waar we erg tevreden over zijn:
 
@@ -32,10 +34,6 @@ In de applicatie wordt de video van je webcam gebruikt. Voor iedere frame worden
 4. Is er geen gezichtsmasker gevonden? Sla de frame op als afbeelding.
 
 Hierdoor wordt er voor elk gezicht goed getracked welk gezicht wel of niet een gezichtsmasker heeft.
-
-## Dataset
-
-Wij hebben een bestaande dataset gebruikt met gezichten die wel een gezichtsmasker dragen en gezichten die geen gezichtsmasker dragen. <sup>1</sup>. Elk van deze datasets bestaat uit ca. 1000 foto's. In totaal hebben wij met het trainen 1376 afbeeldingen gebruikt. Dit is een goed aantal foto's om als dataset te gebruiken. Uit de trainingsresultaten blijkt dat deze dataset dus ook goede resultaten geeft.
 
 ## Problemen
 Het programma zoekt iedere keer eerst naar gezichten om daarna te kijken of die persoon een gezichtsmasker op heeft. Dit betekent dat wanneer een gezicht niet wordt gedetecteerd, er ook niet wordt gezocht naar een gezichtsmasker. Dit kan problematisch zijn wanneer een persoon wel een gezichtsmasker op heeft, maar doordat het programma geen gezicht kan detecteren omdat het gezichtsmasker een groot deel van het gezicht blokkeert, dus geen persoon kan detecteren.
